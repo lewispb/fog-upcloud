@@ -1,0 +1,64 @@
+#!/usr/bin/env ruby
+# Tries fog-upcloud against a real UpCloud account.
+#
+#   UPCLOUD_TOKEN=... bin/smoke                 # reads only: zones, plans, public templates
+#   UPCLOUD_TOKEN=... bin/smoke --boot de-fra1  # also boots the smallest Ubuntu server in de-fra1,
+#                                               # adds a firewall rule, finds it by label, and destroys it
+#
+# UPCLOUD_USERNAME and UPCLOUD_PASSWORD stand in for UPCLOUD_TOKEN. A booted
+# server is labelled fog-upcloud=smoke and destroyed even when the run fails;
+# its SSH key is made for the run and thrown away.
+
+$LOAD_PATH.unshift File.expand_path("../lib", __dir__)
+require "fog/upcloud"
+require "tmpdir"
+
+credentials =
+  if ENV["UPCLOUD_TOKEN"]
+    { upcloud_token: ENV["UPCLOUD_TOKEN"] }
+  else
+    { upcloud_username: ENV.fetch("UPCLOUD_USERNAME"), upcloud_password: ENV.fetch("UPCLOUD_PASSWORD") }
+  end
+compute = Fog::Compute.new(provider: "UpCloud", **credentials)
+
+puts "Public zones: #{compute.regions.all.select(&:public?).map(&:id).join(", ")}"
+
+plans = compute.flavors.all.select { |flavor| flavor.name.match?(/\A\d+xCPU-\d+GB\z/) }
+plan = plans.min_by { |flavor| [ flavor.memory_amount, flavor.core_number ] }
+puts "Plans: #{plans.size}, smallest #{plan.name} (#{plan.storage_size} GB #{plan.storage_tier})"
+
+ubuntu = compute.images.all(type: :public).select(&:cloud_init?).select { |image| image.title.start_with?("Ubuntu Server 24.04") }.first
+puts "Ubuntu template: #{ubuntu.title} (#{ubuntu.id})"
+puts "Private templates: #{compute.images.all.map(&:title).join(", ")}"
+
+zone = ARGV[1] if ARGV[0] == "--boot"
+
+if zone
+  public_key = Dir.mktmpdir do |directory|
+    system("ssh-keygen", "-q", "-t", "ed25519", "-N", "", "-C", "fog-upcloud-smoke", "-f", File.join(directory, "key"), exception: true)
+    File.read(File.join(directory, "key.pub")).strip
+  end
+
+  begin
+    started = Time.now
+    server = compute.servers.create(
+      zone: zone, plan: plan.name, template: ubuntu.id, hostname: "fog-upcloud-smoke", storage_size: plan.storage_size,
+      labels: { "fog-upcloud" => "smoke" }, firewall: true, ssh_keys: [ public_key ]
+    )
+    puts "Created #{server.id} (#{plan.name}) in #{zone}"
+    server.wait_for(600, 5) { ready? }
+    puts "Ready at #{server.public_ip_address} after #{(Time.now - started).round} s"
+
+    rule = server.firewall_rules.create(
+      direction: "in", action: "accept", family: "IPv4", protocol: "tcp", source_address_start: "192.0.2.0",
+      source_address_end: "192.0.2.255", destination_port_start: 22, destination_port_end: 22, comment: "fog-upcloud smoke"
+    )
+    puts "Firewall rule at #{rule.position}: #{server.firewall_rules.all.map(&:comment).inspect}"
+    puts "Listed by label: #{compute.servers.all(label: "fog-upcloud=smoke").map(&:id).include?(server.id)}"
+  ensure
+    if server&.id
+      server.destroy
+      puts "Destroyed #{server.id}"
+    end
+  end
+end
