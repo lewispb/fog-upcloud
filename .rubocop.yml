@@ -1,0 +1,6 @@
+inherit_from:
+  - https://raw.githubusercontent.com/basecamp/house-style/refs/heads/main/rubocop-ruby.yml
+
+AllCops:
+  TargetRubyVersion: 3.2
+  SuggestExtensions: false

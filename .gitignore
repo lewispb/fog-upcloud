@@ -1,0 +1,5 @@
+/Gemfile.lock
+/pkg/
+/.bundle/
+/.rubocop-remote-*.yml
+*.gem
