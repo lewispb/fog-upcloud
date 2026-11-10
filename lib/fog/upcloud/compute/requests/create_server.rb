@@ -57,7 +57,8 @@ module Fog
               disk = {
                 "uuid" => identifier("01"), "access" => "private", "type" => "normal", "state" => "online", "zone" => attributes["zone"],
                 "title" => device.fetch("title", template["title"]), "size" => device.fetch("size", template["size"]),
-                "tier" => device.fetch("tier", "maxiops"), "labels" => device.fetch("labels", []), "license" => 0, "created" => now.iso8601
+                "tier" => device.fetch("tier", "maxiops"), "labels" => device.fetch("labels", []), "license" => 0, "created" => now.iso8601,
+                "origin" => device["storage"]
               }
               data[:storages][disk["uuid"]] = disk
 

@@ -21,6 +21,7 @@ class MockTest < UpCloudTest
     assert_empty compute.servers.all(label: "role=windows")
 
     disk = server.storage_devices.first["storage"]
+    assert_equal UBUNTU, compute.storages.get(disk).origin
     server.destroy
     assert_nil compute.servers.get(server.id)
     assert_nil compute.storages.get(disk)
