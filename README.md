@@ -138,10 +138,11 @@ region.id, region.description, region.public?
 ### Requests
 
 Each request is also on the service, returning UpCloud's JSON as the body:
-`list_servers`, `get_server`, `create_server`, `start_server`, `stop_server`,
-`delete_server`, `list_firewall_rules`, `create_firewall_rule`, `delete_firewall_rule`,
-`list_storages`, `get_storage`, `delete_storage`, `templatize_storage`, `list_plans` and
-`list_zones`.
+`list_servers`, `get_server`, `list_ip_addresses`, `create_server`,
+`start_server`, `stop_server`, `update_server`, `delete_server`,
+`list_firewall_rules`, `create_firewall_rule`, `delete_firewall_rule`,
+`replace_firewall_rules`, `list_storages`, `get_storage`, `delete_storage`,
+`templatize_storage`, `list_plans` and `list_zones`.
 
 ```ruby
 compute.list_servers(label: [ "role=ci" ]).body.dig("servers", "server")

@@ -38,6 +38,7 @@ module Fog
       request :stop_server
       request :delete_server
       request :update_server
+      request :list_ip_addresses
       request :list_firewall_rules
       request :create_firewall_rule
       request :delete_firewall_rule

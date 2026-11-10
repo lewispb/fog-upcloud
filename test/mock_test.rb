@@ -27,6 +27,14 @@ class MockTest < UpCloudTest
     assert_nil compute.storages.get(disk)
   end
 
+  def test_lists_every_servers_addresses_in_one_request
+    server = compute.servers.create(zone: "de-fra1", plan: "2xCPU-4GB", template: UBUNTU, hostname: "ci-1")
+    addresses = compute.list_ip_addresses.body.dig("ip_addresses", "ip_address")
+
+    public = addresses.find { |address| address["access"] == "public" }
+    assert_equal [ server.id, "de-fra1", "IPv4", server.public_ip_address ], public.values_at("server", "zone", "family", "address")
+  end
+
   def test_templatizes_a_servers_disk
     server = compute.servers.create(zone: "de-fra1", plan: "2xCPU-4GB", template: UBUNTU, hostname: "golden")
     server.stop
