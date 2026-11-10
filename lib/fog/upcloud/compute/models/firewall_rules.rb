@@ -20,6 +20,14 @@ module Fog
           all.find { |rule| rule.position == Integer(position) }
         end
 
+        # Replaces the whole firewall with rules, each a rule's attributes,
+        # in order, in one request
+        def replace(rules)
+          requires :server_id
+          service.replace_firewall_rules(server_id, rules.map { |rule| Values.rule_block(rule) })
+          all
+        end
+
         def new(attributes = {})
           super({ server_id: server_id }.merge(attributes))
         end

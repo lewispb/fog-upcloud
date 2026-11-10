@@ -11,7 +11,9 @@ module Fog
         ZONES = [
           { "id" => "de-fra1", "description" => "Frankfurt #1", "public" => "yes" },
           { "id" => "fi-hel1", "description" => "Helsinki #1", "public" => "yes" },
-          { "id" => "us-chi1", "description" => "Chicago #1", "public" => "yes" }
+          { "id" => "us-chi1", "description" => "Chicago #1", "public" => "yes" },
+          { "id" => "us-nyc1", "description" => "New York #1", "public" => "yes" },
+          { "id" => "us-sjo1", "description" => "San Jose #1", "public" => "yes" }
         ]
         PLANS = [
           { "name" => "1xCPU-1GB", "core_number" => 1, "memory_amount" => 1024, "storage_size" => 25, "storage_tier" => "maxiops",

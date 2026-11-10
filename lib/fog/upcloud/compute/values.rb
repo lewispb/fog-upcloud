@@ -23,6 +23,12 @@ module Fog
           labels.to_h.map { |key, value| { key: key.to_s, value: value.to_s } }
         end
 
+        # A firewall rule's attributes as the block UpCloud takes: symbol or
+        # string keys, and numbers as the strings it wants
+        def rule_block(rule)
+          rule.to_h.to_h { |key, value| [ key.to_sym, value.is_a?(Integer) ? value.to_s : value ] }.compact
+        end
+
         # The items of a wrapped list, {"ip_address" => [...]}, or a bare one
         def items(value, key)
           value.is_a?(Hash) ? Array(value[key]) : Array(value)

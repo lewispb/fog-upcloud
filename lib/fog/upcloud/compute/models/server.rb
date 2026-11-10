@@ -103,6 +103,13 @@ module Fog
           true
         end
 
+        # Replaces the server's labels with labels, a Hash of key => value
+        def update_labels(labels)
+          requires :id
+          merge_attributes service.update_server(id, labels: { label: Values.label_blocks(labels) }).body.fetch("server")
+          true
+        end
+
         def firewall_rules
           requires :id
           service.firewall_rules(id)

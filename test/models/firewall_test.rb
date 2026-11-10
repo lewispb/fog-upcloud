@@ -47,4 +47,26 @@ class FirewallTest < UpCloudTest
   def test_requires_a_direction_and_action
     assert_raises(ArgumentError) { compute.firewall_rules("abc").create(protocol: "tcp") }
   end
+
+  def test_replaces_a_servers_whole_firewall_in_one_request
+    stub = stub_request(:put, "#{API}/server/abc/firewall_rule")
+      .with(body: {
+        "firewall_rules" => {
+          "firewall_rule" => [
+            { "direction" => "in", "action" => "accept", "family" => "IPv4", "protocol" => "tcp", "destination_port_start" => "22", "destination_port_end" => "22" },
+            { "direction" => "in", "action" => "drop" }
+          ]
+        }
+      })
+      .to_return(status: 204)
+    stub_upcloud :get, "server/abc/firewall_rule", body: list("firewall_rules", "firewall_rule", [ fixture(:firewall_rule) ])
+
+    rules = compute.firewall_rules("abc").replace([
+      { direction: "in", action: "accept", family: "IPv4", protocol: "tcp", destination_port_start: 22, destination_port_end: 22 },
+      { direction: "in", action: "drop", comment: nil }
+    ])
+
+    assert_requested stub
+    assert_equal 1, rules.size
+  end
 end

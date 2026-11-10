@@ -177,6 +177,15 @@ class ServerTest < UpCloudTest
     assert_raises(Fog::Errors::TimeoutError) { compute.servers.new(fixture(:server)).destroy(timeout: 0, interval: 0) }
   end
 
+  def test_replaces_a_servers_labels
+    stub = stub_request(:put, "#{API}/server/#{fixture(:server).fetch("uuid")}")
+      .with(body: { "server" => { "labels" => { "label" => [ { "key" => "role", "value" => "ci" }, { "key" => "ready", "value" => "yes" } ] } } })
+      .to_return(status: 202, body: JSON.generate("server" => fixture(:server)))
+
+    assert compute.servers.new(fixture(:server)).update_labels("role" => "ci", "ready" => "yes")
+    assert_requested stub
+  end
+
   private
     def expected_minimal_body
       {
@@ -184,4 +193,5 @@ class ServerTest < UpCloudTest
         "networking" => { "interfaces" => { "interface" => [ { "type" => "public", "ip_addresses" => { "ip_address" => [ { "family" => "IPv6" } ] } } ] } }
       }
     end
+
 end

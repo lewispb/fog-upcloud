@@ -37,9 +37,11 @@ module Fog
       request :start_server
       request :stop_server
       request :delete_server
+      request :update_server
       request :list_firewall_rules
       request :create_firewall_rule
       request :delete_firewall_rule
+      request :replace_firewall_rules
       request :list_storages
       request :get_storage
       request :delete_storage

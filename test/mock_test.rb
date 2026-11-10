@@ -50,6 +50,15 @@ class MockTest < UpCloudTest
     assert_equal [ "tcp", nil ], compute.firewall_rules(server.id).all.map(&:protocol)
   end
 
+  def test_replaces_a_servers_firewall_and_labels
+    server = compute.servers.create(zone: "us-sjo1", plan: "2xCPU-4GB", template: UBUNTU, hostname: "ci-1", labels: { "role" => "ci" })
+    server.firewall_rules.replace([ { direction: "in", action: "accept", family: "IPv4", protocol: "icmp" }, { direction: "in", action: "drop" } ])
+    server.update_labels("role" => "ci", "firewall" => "set")
+
+    assert_equal [ "icmp", nil ], server.firewall_rules.all.map(&:protocol)
+    assert_equal [ server.id ], compute.servers.all(labels: { "firewall" => "set" }).map(&:id)
+  end
+
   def test_refuses_to_delete_a_started_server
     server = compute.servers.create(zone: "de-fra1", plan: "2xCPU-4GB", template: UBUNTU, hostname: "ci-1")
 
