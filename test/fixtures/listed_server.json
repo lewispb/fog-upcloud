@@ -1,0 +1,22 @@
+{
+  "core_number": "2",
+  "created": 1794079800,
+  "hostname": "ci-1",
+  "labels": {
+    "label": [
+      { "key": "role", "value": "ci" }
+    ]
+  },
+  "license": 0,
+  "memory_amount": "4096",
+  "plan": "2xCPU-4GB",
+  "plan_ipv4_bytes": "0",
+  "plan_ipv6_bytes": "0",
+  "state": "started",
+  "tags": {
+    "tag": []
+  },
+  "title": "ci-1",
+  "uuid": "00c78863-db86-44ea-af70-d6edc4d162bf",
+  "zone": "de-fra1"
+}

@@ -1,0 +1,52 @@
+{
+  "boot_order": "disk",
+  "core_number": "2",
+  "created": 1794079800,
+  "firewall": "on",
+  "host": 7653311107,
+  "hostname": "ci-1",
+  "labels": {
+    "label": [
+      { "key": "role", "value": "ci" }
+    ]
+  },
+  "ip_addresses": {
+    "ip_address": [
+      { "access": "utility", "address": "10.6.3.95", "family": "IPv4" },
+      { "access": "public", "address": "203.0.113.10", "family": "IPv4" },
+      { "access": "public", "address": "2001:db8::10", "family": "IPv6" }
+    ]
+  },
+  "license": 0,
+  "memory_amount": "4096",
+  "metadata": "yes",
+  "nic_model": "virtio",
+  "plan": "2xCPU-4GB",
+  "plan_ipv4_bytes": "0",
+  "plan_ipv6_bytes": "0",
+  "simple_backup": "no",
+  "state": "started",
+  "storage_devices": {
+    "storage_device": [
+      {
+        "address": "virtio:0",
+        "part_of_plan": "yes",
+        "storage": "01f3286c-a5ea-4670-8121-d0b9767d625b",
+        "storage_size": 80,
+        "storage_tier": "maxiops",
+        "storage_title": "ci-1",
+        "type": "disk",
+        "boot_disk": "0"
+      }
+    ]
+  },
+  "tags": {
+    "tag": []
+  },
+  "timezone": "UTC",
+  "title": "ci-1",
+  "uuid": "00c78863-db86-44ea-af70-d6edc4d162bf",
+  "video_model": "vga",
+  "remote_access_enabled": "no",
+  "zone": "de-fra1"
+}

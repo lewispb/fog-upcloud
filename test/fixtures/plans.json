@@ -1,0 +1,28 @@
+[
+  {
+    "core_number": 1,
+    "memory_amount": 1024,
+    "name": "1xCPU-1GB",
+    "public_traffic_out": 1024,
+    "storage_size": 25,
+    "storage_tier": "maxiops"
+  },
+  {
+    "core_number": 2,
+    "memory_amount": 4096,
+    "name": "2xCPU-4GB",
+    "public_traffic_out": 4096,
+    "storage_size": 80,
+    "storage_tier": "maxiops"
+  },
+  {
+    "core_number": 32,
+    "memory_amount": 393216,
+    "name": "GPU-32xCPU-384GB-2xL40S",
+    "public_traffic_out": 44,
+    "gpu_amount": 2,
+    "storage_size": 0,
+    "storage_tier": null,
+    "gpu_model": "NVIDIA L40S"
+  }
+]

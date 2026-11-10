@@ -1,0 +1,21 @@
+{
+  "access": "private",
+  "backup_rule": "",
+  "backups": {
+    "backup": []
+  },
+  "created": "2026-11-07T19:30:00Z",
+  "encrypted": "no",
+  "labels": [],
+  "license": 0,
+  "servers": {
+    "server": []
+  },
+  "size": 80,
+  "state": "online",
+  "tier": "maxiops",
+  "title": "ci-1",
+  "type": "normal",
+  "uuid": "01f3286c-a5ea-4670-8121-d0b9767d625b",
+  "zone": "de-fra1"
+}

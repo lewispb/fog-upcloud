@@ -1,0 +1,17 @@
+{
+  "action": "accept",
+  "comment": "controller",
+  "destination_address_end": "",
+  "destination_address_start": "",
+  "destination_port_end": "22",
+  "destination_port_start": "22",
+  "direction": "in",
+  "family": "IPv4",
+  "icmp_type": "",
+  "position": "1",
+  "protocol": "tcp",
+  "source_address_end": "198.51.100.255",
+  "source_address_start": "198.51.100.0",
+  "source_port_end": "",
+  "source_port_start": ""
+}

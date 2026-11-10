@@ -1,0 +1,31 @@
+[
+  {
+    "access": "public",
+    "encrypted": "no",
+    "labels": [],
+    "license": 0,
+    "size": 4,
+    "state": "online",
+    "template_type": "cloud-init",
+    "title": "Ubuntu Server 24.04 LTS (Noble Numbat)",
+    "type": "template",
+    "uuid": "01000000-0000-4000-8000-000030240200"
+  },
+  {
+    "access": "private",
+    "created": "2026-11-07T19:30:00Z",
+    "encrypted": "no",
+    "labels": [
+      { "key": "image", "value": "ci-linux" }
+    ],
+    "license": 0,
+    "size": 80,
+    "state": "online",
+    "template_type": "native",
+    "tier": "maxiops",
+    "title": "ci-linux-20261107",
+    "type": "template",
+    "uuid": "012cfe08-ed18-4dce-93c0-c7e39e6276c8",
+    "zone": "de-fra1"
+  }
+]
