@@ -193,5 +193,4 @@ class ServerTest < UpCloudTest
         "networking" => { "interfaces" => { "interface" => [ { "type" => "public", "ip_addresses" => { "ip_address" => [ { "family" => "IPv6" } ] } } ] } }
       }
     end
-
 end
